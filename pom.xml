@@ -16,10 +16,7 @@
 		<java.version>11</java.version>
 		<maven.test.skip>true</maven.test.skip>
 	</properties>
-	<scm>
-		<connection>scm:git:git@tempest:/nexarcore/aware-activemq-client.git</connection>
-	  <tag>aware-activemq-client-0.0.1</tag>
-  </scm>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
