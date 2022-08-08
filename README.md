@@ -39,7 +39,19 @@ public static void test(String received) {
 ```
 
 The consumer will be started in a separate session and will wait until a message drops on the specified topic. 
-If so, the string will be handed over to the method which will log the message in this instance. 
+If so, the string will be handed over to the method which will log the message in this instance.
+
+Make sure to provide a unique id for each consumer: 
+```
+@ActiveMQConsumer(topic = "topic", id = 2)
+``` 
+
+Alternatively, you may decide to close the session after each message consumption. The session will be instantly recreated after a message has been received to keep listening: 
+```
+@ActiveMQConsumer(topic = "topic", keepSessionAlive = false)
+```
+
+Per default, the session will be kept open.
 
 ## Publishing
 
@@ -53,6 +65,16 @@ public String publishRandomUuid(String text) {
 ```
 
 After the method is called and has been run, a publisher will be started in a separate session and will send the returned string of the method to the ActiveMQ broker.
+
+In the event that you need to have multiple publishers, ensure to provide a unique id for each publisher: 
+```
+@ActiveMQPublisher(topic = "topic", id = 37)
+``` 
+
+As with the consumer, there is an option to keep the session open. By default a session is closed right after sending a message, but you may decide to keep it open: 
+```
+@ActiveMQPublisher(topic = "topic", keepSessionAlive = true, id = 2)
+```
 
 # Troubleshooting
 In case some beans aren't picked up in the bean factory, do a component scan on your spring boot app:
