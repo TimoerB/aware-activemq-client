@@ -15,7 +15,7 @@ Add as dependency in `pom.xml`:
 <dependency>
     <groupId>com.nexarcore</groupId>
     <artifactId>aware-activemq-client</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
 </dependency>
 ```
 
