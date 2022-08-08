@@ -2,6 +2,8 @@ package com.nexarcore.awareactivemqclient.aspect;
 
 import com.nexarcore.awareactivemqclient.annotations.ActiveMQPublisher;
 import com.nexarcore.awareactivemqclient.config.BeanConfig;
+import com.nexarcore.awareactivemqclient.state.ActiveMQSessionProducer;
+import com.nexarcore.awareactivemqclient.state.ProducerState;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -23,6 +25,7 @@ import static javax.jms.Session.AUTO_ACKNOWLEDGE;
 public class ActiveMQPublisherAspect {
 
     private final BeanConfig beanConfig;
+    private final ProducerState producerState;
 
     @Around("@annotation(com.nexarcore.awareactivemqclient.annotations.ActiveMQPublisher)")
     public Object enableActiveMQProducer(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
@@ -32,15 +35,29 @@ public class ActiveMQPublisherAspect {
         Method method = signature.getMethod();
 
         ActiveMQPublisher activeMQPublisher = method.getAnnotation(ActiveMQPublisher.class);
+        long id = activeMQPublisher.id();
 
         log.debug("Publishing string {}", proceed);
-        Session session = producerSession();
-        TextMessage message = session.createTextMessage((String) proceed);
-        MessageProducer messageProducer = messageProducer(session, activeMQPublisher.topic());
-        messageProducer.send(message);
+        ActiveMQSessionProducer sessionProducer = producerState.getProducers().get(id);
+        if (sessionProducer == null) {
+            log.debug("No sessionProvider found for id {}, creating one.", id);
+            Session session = producerSession();
+            sessionProducer = ActiveMQSessionProducer.builder()
+                    .withSession(session)
+                    .withMessageProducer(messageProducer(session, activeMQPublisher.topic()))
+                    .build();
+            producerState.addSessionProducer(id, sessionProducer);
+        }
 
-        messageProducer.close();
-        session.close();
+        TextMessage message = sessionProducer.getSession().createTextMessage((String) proceed);
+        sessionProducer.getMessageProducer().send(message);
+
+        if (!activeMQPublisher.keepSessionAlive()) {
+            sessionProducer.getMessageProducer().close();
+            sessionProducer.getSession().close();
+            producerState.removeSessionProducer(id);
+            log.debug("Closed session and message producer for id {}", id);
+        }
 
         return proceed;
     }
