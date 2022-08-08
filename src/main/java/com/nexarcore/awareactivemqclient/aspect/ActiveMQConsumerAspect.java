@@ -1,5 +1,6 @@
 package com.nexarcore.awareactivemqclient.aspect;
 
+import com.nexarcore.awareactivemqclient.annotations.ActiveMQConsumer;
 import com.nexarcore.awareactivemqclient.config.BeanConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

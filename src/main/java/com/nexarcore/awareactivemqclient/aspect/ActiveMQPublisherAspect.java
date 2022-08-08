@@ -1,5 +1,6 @@
 package com.nexarcore.awareactivemqclient.aspect;
 
+import com.nexarcore.awareactivemqclient.annotations.ActiveMQPublisher;
 import com.nexarcore.awareactivemqclient.config.BeanConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class ActiveMQPublisherAspect {
 
     private final BeanConfig beanConfig;
 
-    @Around("@annotation(com.nexarcore.awareactivemqclient.aspect.ActiveMQPublisher)")
+    @Around("@annotation(com.nexarcore.awareactivemqclient.annotations.ActiveMQPublisher)")
     public Object enableActiveMQProducer(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object proceed = proceedingJoinPoint.proceed();
 
