@@ -15,7 +15,7 @@ Add as dependency in `pom.xml`:
 <dependency>
     <groupId>com.nexarcore</groupId>
     <artifactId>aware-activemq-client</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 </dependency>
 ```
 
@@ -25,7 +25,7 @@ Specify the broker url:
 ```
 spring:
   activemq:
-    broker-url: tcp://192.168.0.135:61616
+    broker-url: tcp://127.0.0.1:61616
 ```
 
 ## Subscription
