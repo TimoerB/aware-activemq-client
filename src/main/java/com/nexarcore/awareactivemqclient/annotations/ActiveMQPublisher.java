@@ -12,4 +12,8 @@ import static com.nexarcore.awareactivemqclient.config.Constants.DEFAULT_TOPIC;
 public @interface ActiveMQPublisher {
 
     String topic() default DEFAULT_TOPIC;
+
+    boolean keepSessionAlive() default false;
+
+    long id() default 1L;
 }
