@@ -15,7 +15,7 @@ Add as dependency in `pom.xml`:
 <dependency>
     <groupId>com.nexarcore</groupId>
     <artifactId>aware-activemq-client</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 </dependency>
 ```
 
@@ -33,7 +33,7 @@ To subscribe to a specific topic:
 
 ```
 @ActiveMQConsumer(topic = "topic-a")
-public static void test(String received) {
+public void receive(String received) {
     log.info("Received {}", received);
 }
 ```
@@ -80,6 +80,6 @@ As with the consumer, there is an option to keep the session open. By default a 
 In case some beans aren't picked up in the bean factory, do a component scan on your spring boot app:
 
 ```
-@ComponentScan(basePackages = {"com.nexarcore.awareactivemqclient", "com.nexarcore.awarecontextualassembler"})
+@ComponentScan(basePackages = {"com.nexarcore.awareactivemqclient"})
 ```
 

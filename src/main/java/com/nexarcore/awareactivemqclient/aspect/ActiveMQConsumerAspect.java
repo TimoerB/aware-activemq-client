@@ -17,6 +17,8 @@ import org.springframework.stereotype.Component;
 
 import javax.jms.*;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import static javax.jms.Session.AUTO_ACKNOWLEDGE;
@@ -36,18 +38,24 @@ public class ActiveMQConsumerAspect {
                 .setScanners(new MethodAnnotationsScanner()));
 
         reflections.getMethodsAnnotatedWith(annotation).forEach(method -> {
-            ActiveMQConsumer consumerAnnotation = method.getAnnotation(ActiveMQConsumer.class);
-            subscribeInDaemon(method, consumerAnnotation.topic(), consumerAnnotation.keepSessionAlive(), consumerAnnotation.id());
+            try {
+                Class<?> aClass = Class.forName(method.getDeclaringClass().getName());
+                Constructor<?> constructor = aClass.getConstructor();
+                ActiveMQConsumer consumerAnnotation = method.getAnnotation(ActiveMQConsumer.class);
+                subscribeInDaemon(constructor.newInstance(), method, consumerAnnotation.topic(), consumerAnnotation.keepSessionAlive(), consumerAnnotation.id());
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | ClassNotFoundException | NoSuchMethodException e) {
+                log.error("Error trying to retrieve class information: {}", e.getMessage());
+            }
         });
     }
 
-    private void subscribeInDaemon(Method m, String topic, boolean keepAlive, long id) {
+    private void subscribeInDaemon(Object o, Method m, String topic, boolean keepAlive, long id) {
         new Thread(() -> {
             String receivedMessage;
             try {
                 receivedMessage = subscribe2topic(topic, keepAlive, id);
-                m.invoke(null, receivedMessage);
-                subscribeInDaemon(m, topic, keepAlive, id);
+                m.invoke(o, receivedMessage);
+                subscribeInDaemon(o, m, topic, keepAlive, id);
             } catch (Exception e) {
                 log.error("Could not subscribe to topic: {}", e.getMessage());
             }
