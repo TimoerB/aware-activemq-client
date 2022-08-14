@@ -15,7 +15,7 @@ Add as dependency in `pom.xml`:
 <dependency>
     <groupId>com.nexarcore</groupId>
     <artifactId>aware-activemq-client</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
 </dependency>
 ```
 
@@ -52,6 +52,8 @@ Alternatively, you may decide to close the session after each message consumptio
 ```
 
 Per default, the session will be kept open.
+
+Currently, the annotation will only be picked up if it's part of the bean factory (i.e. class annotated with `@Component` or `@Service`).
 
 ## Publishing
 
