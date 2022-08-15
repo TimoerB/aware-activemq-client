@@ -11,13 +11,13 @@ import java.util.Map;
 @Getter
 public class ConsumerState {
 
-    private Map<Long, MessageConsumer> consumers = new HashMap<>();
+    private Map<String, MessageConsumer> consumers = new HashMap<>();
 
-    public void removeConsumer(long id) {
+    public void removeConsumer(String id) {
         consumers.remove(id);
     }
 
-    public void addConsumer(long id, MessageConsumer consumer) {
+    public void addConsumer(String id, MessageConsumer consumer) {
         consumers.put(id, consumer);
     }
 }

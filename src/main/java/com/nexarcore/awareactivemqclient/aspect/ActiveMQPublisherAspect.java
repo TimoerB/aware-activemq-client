@@ -35,7 +35,7 @@ public class ActiveMQPublisherAspect {
         Method method = signature.getMethod();
 
         ActiveMQPublisher activeMQPublisher = method.getAnnotation(ActiveMQPublisher.class);
-        long id = activeMQPublisher.id();
+        String id = method.getDeclaringClass().getSimpleName() + "." + method.getName();
 
         log.debug("Publishing string {}", proceed);
         ActiveMQSessionProducer sessionProducer = producerState.getProducers().get(id);

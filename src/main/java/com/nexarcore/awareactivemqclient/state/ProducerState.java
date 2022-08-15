@@ -10,13 +10,13 @@ import java.util.Map;
 @Getter
 public class ProducerState {
 
-    private Map<Long, ActiveMQSessionProducer> producers = new HashMap<>();
+    private Map<String, ActiveMQSessionProducer> producers = new HashMap<>();
 
-    public void removeSessionProducer(long id) {
+    public void removeSessionProducer(String id) {
         producers.remove(id);
     }
 
-    public void addSessionProducer(long id, ActiveMQSessionProducer sessionProducer) {
+    public void addSessionProducer(String id, ActiveMQSessionProducer sessionProducer) {
         producers.put(id, sessionProducer);
     }
 }

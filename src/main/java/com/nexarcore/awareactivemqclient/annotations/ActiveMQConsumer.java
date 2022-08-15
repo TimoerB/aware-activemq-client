@@ -14,6 +14,4 @@ public @interface ActiveMQConsumer {
     String topic() default DEFAULT_TOPIC;
 
     boolean keepSessionAlive() default true;
-
-    long id() default 1L;
 }

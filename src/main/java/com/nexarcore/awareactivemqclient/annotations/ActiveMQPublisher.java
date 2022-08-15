@@ -14,6 +14,4 @@ public @interface ActiveMQPublisher {
     String topic() default DEFAULT_TOPIC;
 
     boolean keepSessionAlive() default false;
-
-    long id() default 1L;
 }

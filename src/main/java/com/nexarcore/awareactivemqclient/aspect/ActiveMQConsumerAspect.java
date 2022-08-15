@@ -48,7 +48,10 @@ public class ActiveMQConsumerAspect {
             Object consumerBean = consumerBeans.get(beanName);
             if (consumerBean != null) {
                 ActiveMQConsumer consumerAnnotation = method.getAnnotation(ActiveMQConsumer.class);
-                subscribeInDaemon(consumerBean, method, consumerAnnotation.topic(), consumerAnnotation.keepSessionAlive(), consumerAnnotation.id());
+                subscribeInDaemon(consumerBean, method, consumerAnnotation.topic(), consumerAnnotation.keepSessionAlive(), beanName + "." + method.getName());
+            }
+            else {
+                log.warn("No bean found for annotated method {}, not starting consumer.", method.getName());
             }
         });
     }
@@ -63,7 +66,7 @@ public class ActiveMQConsumerAspect {
         return name.substring(0, 1).toLowerCase() + name.substring(1);
     }
 
-    private void subscribeInDaemon(Object o, Method m, String topic, boolean keepAlive, long id) {
+    private void subscribeInDaemon(Object o, Method m, String topic, boolean keepAlive, String id) {
         new Thread(() -> {
             String receivedMessage;
             try {
@@ -76,7 +79,7 @@ public class ActiveMQConsumerAspect {
         }).start();
     }
 
-    private String subscribe2topic(String topic, boolean keepAlive, long id) throws Exception {
+    private String subscribe2topic(String topic, boolean keepAlive, String id) throws Exception {
         log.debug("Subscribing to topic {}", topic);
 
         MessageConsumer messageConsumer = consumerState.getConsumers().get(id);
