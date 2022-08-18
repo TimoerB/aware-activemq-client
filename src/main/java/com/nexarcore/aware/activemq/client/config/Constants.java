@@ -1,4 +1,4 @@
-package com.nexarcore.awareactivemqclient.config;
+package com.nexarcore.aware.activemq.client.config;
 
 public class Constants {
 

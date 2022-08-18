@@ -1,4 +1,4 @@
-package com.nexarcore.awareactivemqclient.config;
+package com.nexarcore.aware.activemq.client.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

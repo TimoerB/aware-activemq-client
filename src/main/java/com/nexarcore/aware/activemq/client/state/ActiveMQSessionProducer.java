@@ -1,4 +1,4 @@
-package com.nexarcore.awareactivemqclient.state;
+package com.nexarcore.aware.activemq.client.state;
 
 import lombok.Builder;
 import lombok.Getter;

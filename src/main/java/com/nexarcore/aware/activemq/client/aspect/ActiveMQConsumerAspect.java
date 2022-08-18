@@ -1,8 +1,8 @@
-package com.nexarcore.awareactivemqclient.aspect;
+package com.nexarcore.aware.activemq.client.aspect;
 
-import com.nexarcore.awareactivemqclient.annotations.ActiveMQConsumer;
-import com.nexarcore.awareactivemqclient.config.BeanConfig;
-import com.nexarcore.awareactivemqclient.state.ConsumerState;
+import com.nexarcore.aware.activemq.client.state.ConsumerState;
+import com.nexarcore.aware.activemq.client.annotations.ActiveMQConsumer;
+import com.nexarcore.aware.activemq.client.config.BeanConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;

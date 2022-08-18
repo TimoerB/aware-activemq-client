@@ -1,4 +1,4 @@
-package com.nexarcore.awareactivemqclient.state;
+package com.nexarcore.aware.activemq.client.state;
 
 import lombok.Getter;
 import org.springframework.stereotype.Component;

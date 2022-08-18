@@ -1,9 +1,9 @@
-package com.nexarcore.awareactivemqclient.aspect;
+package com.nexarcore.aware.activemq.client.aspect;
 
-import com.nexarcore.awareactivemqclient.annotations.ActiveMQPublisher;
-import com.nexarcore.awareactivemqclient.config.BeanConfig;
-import com.nexarcore.awareactivemqclient.state.ActiveMQSessionProducer;
-import com.nexarcore.awareactivemqclient.state.ProducerState;
+import com.nexarcore.aware.activemq.client.annotations.ActiveMQPublisher;
+import com.nexarcore.aware.activemq.client.config.BeanConfig;
+import com.nexarcore.aware.activemq.client.state.ActiveMQSessionProducer;
+import com.nexarcore.aware.activemq.client.state.ProducerState;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -27,7 +27,7 @@ public class ActiveMQPublisherAspect {
     private final BeanConfig beanConfig;
     private final ProducerState producerState;
 
-    @Around("@annotation(com.nexarcore.awareactivemqclient.annotations.ActiveMQPublisher)")
+    @Around("@annotation(com.nexarcore.aware.activemq.client.annotations.ActiveMQPublisher)")
     public Object enableActiveMQProducer(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object proceed = proceedingJoinPoint.proceed();
 
